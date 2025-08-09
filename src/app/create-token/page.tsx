@@ -89,17 +89,17 @@ export default function CreateToken2022Page() {
         )
       );
 
-      // Optionally create the creator's ATA and mint an initial supply
-      const initialSupply = Number(form.initialSupply || 0);
-      let ata: PublicKey | undefined = undefined;
-      if (initialSupply > 0) {
-        ata = getAssociatedTokenAddressSync(
-          mintKeypair.publicKey,
-          wallet.publicKey,
-          false,
-          TOKEN_2022_PROGRAM_ID
-        );
+      // Derive the creator's ATA for the new mint
+      const ata = getAssociatedTokenAddressSync(
+        mintKeypair.publicKey,
+        wallet.publicKey,
+        false,
+        TOKEN_2022_PROGRAM_ID
+      );
 
+      // Optionally create the ATA and mint an initial supply
+      const initialSupply = Number(form.initialSupply || 0);
+      if (initialSupply > 0) {
         tx.add(
           createAssociatedTokenAccountInstruction(
             wallet.publicKey, // payer
@@ -131,7 +131,7 @@ export default function CreateToken2022Page() {
 
       setResult({
         mint: mintKeypair.publicKey.toBase58(),
-        ata: ata?.toBase58(),
+        ata: ata.toBase58(),
         signature: sig,
       });
     } catch (e: any) {
