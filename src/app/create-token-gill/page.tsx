@@ -4,7 +4,7 @@ import { useState, useMemo, useCallback } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { TOKEN_2022_PROGRAM_ID } from "@solana/spl-token";
-import { address, generateKeyPairSigner, type Blockhash } from "@solana/kit";
+import { address, generateKeyPairSigner } from "@solana/kit";
 import { buildCreateTokenTransaction } from "gill/programs/token";
 import Link from "next/link";
 
@@ -41,15 +41,15 @@ export default function CreateTokenGillPage() {
       const mintSigner = await generateKeyPairSigner();
 
       // Fetch latest blockhash (convert lastValidBlockHeight to bigint)
-      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const { blockhash: blockhashStr, lastValidBlockHeight } = await connection.getLatestBlockhash();
 
       // Build the transaction using gill with correct types
       const tx = await buildCreateTokenTransaction({
         feePayer: address(wallet.publicKey.toBase58()),
         latestBlockhash: {
-          blockhash: blockhash as unknown as Blockhash,
+          blockhash: blockhashStr as unknown as any,
           lastValidBlockHeight: BigInt(lastValidBlockHeight),
-        },
+        } as Readonly<{ blockhash: any; lastValidBlockHeight: bigint }>,
         mint: mintSigner,
         metadata: {
           isMutable: true,
