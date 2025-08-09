@@ -4,7 +4,7 @@ import { useState, useMemo, useCallback } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { TOKEN_2022_PROGRAM_ID } from "@solana/spl-token";
-import { address, generateKeyPairSigner } from "@solana/kit";
+import { address, generateKeyPairSigner, type Blockhash } from "@solana/kit";
 import { buildCreateTokenTransaction } from "gill/programs/token";
 import Link from "next/link";
 
@@ -47,7 +47,7 @@ export default function CreateTokenGillPage() {
       const tx = await buildCreateTokenTransaction({
         feePayer: address(wallet.publicKey.toBase58()),
         latestBlockhash: {
-          blockhash,
+          blockhash: blockhash as unknown as Blockhash,
           lastValidBlockHeight: BigInt(lastValidBlockHeight),
         },
         mint: mintSigner,
@@ -58,7 +58,7 @@ export default function CreateTokenGillPage() {
           uri,
         },
         decimals,
-        tokenProgram: TOKEN_2022_PROGRAM_ID,
+        tokenProgram: address(TOKEN_2022_PROGRAM_ID.toBase58()),
       });
 
       // Attempt to sign & send via wallet adapter. We first sign with the mint signer
@@ -77,7 +77,8 @@ export default function CreateTokenGillPage() {
         console.warn("Send error (non-fatal):", sendErr);
       }
 
-      setResult({ mint: (mintSigner as any).address ?? mintSigner.publicKey?.toBase58?.(), signature });
+      // KeyPairSigner has `.address` (base58 string). Fallback kept for robustness.
+      setResult({ mint: (mintSigner as any).address ?? String((mintSigner as any).publicKey?.toBase58?.() ?? ""), signature });
     } catch (e: any) {
       setResult({ error: e?.message ?? String(e) });
     } finally {
