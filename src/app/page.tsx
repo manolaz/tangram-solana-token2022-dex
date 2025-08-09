@@ -1,4 +1,4 @@
-import MetaplexLogo from "@/assets/logos/metaplex-logo.png";
+import AmocaLogo from "@/assets/logos/amoca-logo.jpeg";
 import Header from "@/components/header";
 
 export default function Home() {
@@ -6,16 +6,19 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Header />
 
-      <div
-        className="relative z-[-1] flex place-items-center"
-        style={{ filter: "invert(var(--invert-value))" }}
-      >
+      <div className="relative z-[-1] flex flex-col items-center gap-4">
         <img
-          className="relative"
-          src={MetaplexLogo.src}
-          alt="<Metaplex Logo"
-          width={500}
+          className="relative rounded-full shadow"
+          src={AmocaLogo.src}
+          alt="AMOCA Logo"
+          width={220}
+          height={220}
         />
+        <h1 className="text-4xl font-bold">AMOCA DEX</h1>
+        <p className="opacity-70 text-center max-w-2xl">
+          Swap and transfer Solana Token-2022 assets with a clean, wallet-first
+          interface.
+        </p>
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left gap-4">
@@ -32,7 +35,7 @@ export default function Home() {
             </span>
           </h2>
           <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Solana and the Metaplex programs from the developer hub.
+            Learn about Solana and Metaplex programs from the developer hub.
           </p>
         </a>
 
@@ -49,7 +52,7 @@ export default function Home() {
             </span>
           </h2>
           <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            The Metaplex Foundation&apos;s Github projects.
+            Metaplex Foundation Github projects.
           </p>
         </a>
 
