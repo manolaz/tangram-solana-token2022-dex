@@ -23,6 +23,20 @@ export default function Home() {
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left gap-4">
         <a
+          href="/create-token"
+          className="group rounded-lg border px-5 py-4 transition-colors"
+        >
+          <h2 className="mb-3 text-2xl font-semibold">
+            Create Token-2022
+            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+              -&gt;
+            </span>
+          </h2>
+          <p className="m-0 max-w-[30ch] text-sm opacity-50">
+            Launch a new Token-2022 mint with optional initial supply.
+          </p>
+        </a>
+        <a
           href="https://developers.metaplex.com"
           className="group rounded-lg border px-5 py-4 transition-colors"
           target="_blank"
